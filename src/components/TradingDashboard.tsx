@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Portfolio, AIDecision } from '@/types/trading';
-import { TrendingUp, TrendingDown, Activity, RotateCcw, FileText, Loader2 } from 'lucide-react';
+import { TrendingUp, TrendingDown, Activity, RotateCcw, FileText, Loader2, Brain } from 'lucide-react';
 
 interface TradingDashboardProps {
   portfolio: Portfolio;
@@ -13,7 +13,9 @@ interface TradingDashboardProps {
     timestamp: number;
     symbol: string;
     analysis: string;
+    chainOfThought: string;
     decision: string;
+    confidence: number;
   }>;
   isEnabled: boolean;
   isAnalyzing: boolean;
@@ -200,29 +202,39 @@ const TradingDashboard = ({
           </CardContent>
         </Card>
 
-        {/* AI Reports */}
+        {/* AI Chain of Thought Reports */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
-              <FileText className="w-4 h-4" />
-              AI Reports
+              <Brain className="w-4 h-4" />
+              AI Analysis Reports
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[400px]">
               <div className="space-y-3">
                 {aiReports.map((report, index) => (
-                  <div key={index} className="p-3 bg-muted/50 rounded-lg space-y-1">
+                  <div key={index} className="p-3 bg-muted/50 rounded-lg space-y-2">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-sm">{report.symbol}</span>
                       <Badge variant="outline" className="text-xs">
                         {report.decision}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">{report.analysis}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {new Date(report.timestamp).toLocaleString()}
-                    </p>
+                    <div className="space-y-1">
+                      <p className="text-xs font-medium text-muted-foreground">Chain of Thought:</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed">
+                        {report.chainOfThought}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between pt-2 border-t">
+                      <p className="text-xs text-muted-foreground">
+                        {new Date(report.timestamp).toLocaleString()}
+                      </p>
+                      <p className="text-xs font-medium">
+                        {(report.confidence * 100).toFixed(0)}% confidence
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
