@@ -4,22 +4,35 @@ import { useTradingBot } from '@/hooks/useTradingBot';
 import CryptoCard from '@/components/CryptoCard';
 import CryptoChart from '@/components/CryptoChart';
 import TradingDashboard from '@/components/TradingDashboard';
+import AIConfigPanel from '@/components/AIConfigPanel';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Loader2, RefreshCw } from 'lucide-react';
+import { Loader2, Bot } from 'lucide-react';
 import { MadeWithDyad } from '@/components/made-with-dyad';
+import { AIConfig } from '@/services/aiService';
 
 const Index = () => {
   const { prices, priceHistory, isLoading, error } = useCryptoPrices();
   const [isBotEnabled, setIsBotEnabled] = useState(false);
-  const { portfolio, decisions, lastTrade, resetPortfolio } = useTradingBot(prices, isBotEnabled);
+  const [aiConfig, setAiConfig] = useState<AIConfig>({
+    provider: 'openai',
+    apiKey: '',
+    model: 'gpt-3.5-turbo'
+  });
+
+  const { portfolio, decisions, aiReports, isAnalyzing, resetPortfolio } = useTradingBot(
+    prices,
+    priceHistory,
+    isBotEnabled,
+    aiConfig
+  );
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100">
         <div className="text-center">
           <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-blue-600" />
-          <p className="text-xl text-gray-600">Loading crypto prices...</p>
+          <p className="text-xl text-gray-600">Loading...</p>
         </div>
       </div>
     );
@@ -27,7 +40,7 @@ const Index = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
         <Alert variant="destructive" className="max-w-md">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
@@ -38,36 +51,37 @@ const Index = () => {
   const cryptoSymbols = prices ? Object.keys(prices.prices) : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2 flex items-center justify-center gap-3">
-            <RefreshCw className="w-10 h-10 text-blue-600 animate-spin" style={{ animationDuration: '3s' }} />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 md:p-6">
+      <div className="max-w-[1600px] mx-auto">
+        <div className="mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+            <Bot className="w-8 h-8 text-blue-600" />
             AI Crypto Trading Bot
           </h1>
-          <p className="text-gray-600 text-lg">Real-time cryptocurrency trading with AI</p>
+          <p className="text-gray-600">Automated trading with AI analysis</p>
         </div>
 
-        <Tabs defaultValue="trading" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="trading">Trading Dashboard</TabsTrigger>
-            <TabsTrigger value="market">Market Overview</TabsTrigger>
+        <Tabs defaultValue="trading" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-3 max-w-md">
+            <TabsTrigger value="trading">Trading</TabsTrigger>
+            <TabsTrigger value="market">Market</TabsTrigger>
+            <TabsTrigger value="config">Config</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="trading" className="space-y-6">
+          <TabsContent value="trading">
             <TradingDashboard
               portfolio={portfolio}
               decisions={decisions}
-              lastTrade={lastTrade}
+              aiReports={aiReports}
               isEnabled={isBotEnabled}
+              isAnalyzing={isAnalyzing}
               onToggle={setIsBotEnabled}
               onReset={resetPortfolio}
             />
           </TabsContent>
 
-          <TabsContent value="market" className="space-y-6">
-            {/* Price Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <TabsContent value="market" className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {prices && cryptoSymbols.map((symbol) => {
                 const crypto = prices.prices[symbol];
                 const history = priceHistory[symbol] || [];
@@ -83,11 +97,9 @@ const Index = () => {
               })}
             </div>
 
-            {/* Charts Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {cryptoSymbols.map((symbol) => {
                 const history = priceHistory[symbol] || [];
-                
                 if (history.length < 2) return null;
                 
                 return (
@@ -98,6 +110,12 @@ const Index = () => {
                   />
                 );
               })}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="config">
+            <div className="max-w-2xl">
+              <AIConfigPanel config={aiConfig} onChange={setAiConfig} />
             </div>
           </TabsContent>
         </Tabs>
