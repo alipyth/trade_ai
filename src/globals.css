@@ -98,5 +98,34 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Noto Sans Arabic', sans-serif;
+    direction: rtl;
+  }
+
+  /* RTL specific adjustments */
+  [dir="rtl"] .space-x-2 > * + * {
+    margin-right: 0.5rem;
+    margin-left: 0;
+  }
+
+  [dir="rtl"] .space-x-3 > * + * {
+    margin-right: 0.75rem;
+    margin-left: 0;
+  }
+
+  [dir="rtl"] .space-x-4 > * + * {
+    margin-right: 1rem;
+    margin-left: 0;
+  }
+
+  [dir="rtl"] .gap-2 {
+    gap: 0.5rem;
+  }
+
+  [dir="rtl"] .gap-3 {
+    gap: 0.75rem;
+  }
+
+  [dir="rtl"] .gap-4 {
+    gap: 1rem;
   }
 }
