@@ -5,6 +5,7 @@ import CryptoCard from '@/components/CryptoCard';
 import CryptoChart from '@/components/CryptoChart';
 import TradingDashboard from '@/components/TradingDashboard';
 import AIConfigPanel from '@/components/AIConfigPanel';
+import ExchangeConfigPanel from '@/components/ExchangeConfigPanel';
 import StrategySelector from '@/components/StrategySelector';
 import TradingReports from '@/components/TradingReports';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -13,6 +14,7 @@ import { Loader2, Bot } from 'lucide-react';
 import { MadeWithDyad } from '@/components/made-with-dyad';
 import { AIConfig } from '@/services/aiService';
 import { TradingStrategy, DEFAULT_STRATEGIES } from '@/types/trading';
+import { ExchangeConfig } from '@/types/exchange';
 
 const Index = () => {
   const { prices, priceHistory, isLoading, error } = useCryptoPrices();
@@ -23,6 +25,10 @@ const Index = () => {
     model: 'gpt-3.5-turbo'
   });
   const [strategy, setStrategy] = useState<TradingStrategy>(DEFAULT_STRATEGIES.moderate);
+  const [exchangeConfig, setExchangeConfig] = useState<ExchangeConfig>({
+    type: '  binance',
+    mode: 'demo',
+  });
 
   const { portfolio, decisions, aiReports, isAnalyzing, resetPortfolio } = useTradingBot(
     prices,
@@ -67,12 +73,13 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="trading" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-5 max-w-3xl">
+          <TabsList className="grid w-full grid-cols-6 max-w-4xl">
             <TabsTrigger value="trading">معاملات</TabsTrigger>
+            <TabsTrigger value="exchange">صرافی</TabsTrigger>
             <TabsTrigger value="strategy">استراتژی</TabsTrigger>
             <TabsTrigger value="reports">گزارشات</TabsTrigger>
             <TabsTrigger value="market">بازار</TabsTrigger>
-            <TabsTrigger value="config">تنظیمات</TabsTrigger>
+            <TabsTrigger value="config">تنظیمات AI</TabsTrigger>
           </TabsList>
 
           <TabsContent value="trading">
@@ -85,6 +92,12 @@ const Index = () => {
               onToggle={setIsBotEnabled}
               onReset={resetPortfolio}
             />
+          </TabsContent>
+
+          <TabsContent value="exchange">
+            <div className="max-w-2xl">
+              <ExchangeConfigPanel config={exchangeConfig} onChange={setExchangeConfig} />
+            </div>
           </TabsContent>
 
           <TabsContent value="strategy">
