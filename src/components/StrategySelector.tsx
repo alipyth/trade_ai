@@ -21,9 +21,9 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
   };
 
   return (
-    <Card>
+    <Card dir="rtl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-right">
           <Target className="w-5 h-5" />
           استراتژی معاملاتی
         </CardTitle>
@@ -31,7 +31,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
       <CardContent className="space-y-6">
         {/* Preset Strategies */}
         <div className="space-y-2">
-          <Label>استراتژی از پیش تعریف شده</Label>
+          <Label className="text-right block">استراتژی از پیش تعریف شده</Label>
           <Select onValueChange={handlePresetChange}>
             <SelectTrigger>
               <SelectValue placeholder="انتخاب استراتژی" />
@@ -67,12 +67,12 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
         {/* Custom Settings */}
         <div className="space-y-4 pt-4 border-t">
-          <h3 className="font-medium text-sm">تنظیمات سفارشی</h3>
+          <h3 className="font-medium text-sm text-right">تنظیمات سفارشی</h3>
           
           {/* Risk Per Trade */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>ریسک هر معامله: {strategy.riskPerTrade}%</Label>
+              <Label className="text-right">ریسک هر معامله: {strategy.riskPerTrade}%</Label>
             </div>
             <Slider
               value={[strategy.riskPerTrade]}
@@ -86,7 +86,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
           {/* Max Positions */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>حداکثر پوزیشن همزمان: {strategy.maxPositions}</Label>
+              <Label className="text-right">حداکثر پوزیشن همزمان: {strategy.maxPositions}</Label>
             </div>
             <Slider
               value={[strategy.maxPositions]}
@@ -100,7 +100,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
           {/* Min Confidence */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>حداقل اطمینان: {(strategy.minConfidence * 100).toFixed(0)}%</Label>
+              <Label className="text-right">حداقل اطمینان: {(strategy.minConfidence * 100).toFixed(0)}%</Label>
             </div>
             <Slider
               value={[strategy.minConfidence * 100]}
@@ -114,7 +114,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
           {/* Max Leverage */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label>حداکثر لوریج: {strategy.maxLeverage}x</Label>
+              <Label className="text-right">حداکثر لوریج: {strategy.maxLeverage}x</Label>
             </div>
             <Slider
               value={[strategy.maxLeverage]}
@@ -127,7 +127,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
           {/* Trailing Stop */}
           <div className="flex items-center justify-between">
-            <Label>حد ضرر متحرک</Label>
+            <Label className="text-right">حد ضرر متحرک</Label>
             <Switch
               checked={strategy.useTrailingStop}
               onCheckedChange={(checked) => handleCustomChange('useTrailingStop', checked)}
@@ -137,7 +137,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
           {strategy.useTrailingStop && (
             <div className="space-y-2 mr-4">
               <div className="flex items-center justify-between">
-                <Label className="text-sm">درصد حد ضرر متحرک: {strategy.trailingStopPercent}%</Label>
+                <Label className="text-sm text-right">درصد حد ضرر متحرک: {strategy.trailingStopPercent}%</Label>
               </div>
               <Slider
                 value={[strategy.trailingStopPercent]}
@@ -151,7 +151,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
           {/* DCA */}
           <div className="flex items-center justify-between">
-            <Label>میانگین‌گیری هزینه (DCA)</Label>
+            <Label className="text-right">میانگین‌گیری هزینه (DCA)</Label>
             <Switch
               checked={strategy.useDCA}
               onCheckedChange={(checked) => handleCustomChange('useDCA', checked)}
@@ -161,7 +161,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
           {strategy.useDCA && (
             <div className="space-y-2 mr-4">
               <div className="flex items-center justify-between">
-                <Label className="text-sm">تعداد سطوح DCA: {strategy.dcaLevels}</Label>
+                <Label className="text-sm text-right">تعداد سطوح DCA: {strategy.dcaLevels}</Label>
               </div>
               <Slider
                 value={[strategy.dcaLevels]}
@@ -175,7 +175,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
           {/* Scalping */}
           <div className="flex items-center justify-between">
-            <Label>اسکالپینگ (معاملات سریع)</Label>
+            <Label className="text-right">اسکالپینگ (معاملات سریع)</Label>
             <Switch
               checked={strategy.useScalping}
               onCheckedChange={(checked) => handleCustomChange('useScalping', checked)}
@@ -185,7 +185,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
           {strategy.useScalping && (
             <div className="space-y-2 mr-4">
               <div className="flex items-center justify-between">
-                <Label className="text-sm">هدف سود اسکالپینگ: {strategy.scalpingTargetPercent}%</Label>
+                <Label className="text-sm text-right">هدف سود اسکالپینگ: {strategy.scalpingTargetPercent}%</Label>
               </div>
               <Slider
                 value={[strategy.scalpingTargetPercent]}
@@ -199,7 +199,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
           {/* Diversification */}
           <div className="flex items-center justify-between">
-            <Label>تنوع‌بخشی پرتفوی</Label>
+            <Label className="text-right">تنوع‌بخشی پرتفوی</Label>
             <Switch
               checked={strategy.diversification}
               onCheckedChange={(checked) => handleCustomChange('diversification', checked)}
@@ -208,7 +208,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
           {/* Market Timing */}
           <div className="flex items-center justify-between">
-            <Label>زمان‌بندی بازار</Label>
+            <Label className="text-right">زمان‌بندی بازار</Label>
             <Switch
               checked={strategy.useMarketTiming}
               onCheckedChange={(checked) => handleCustomChange('useMarketTiming', checked)}
@@ -217,7 +217,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
 
           {strategy.useMarketTiming && (
             <div className="flex items-center justify-between mr-4">
-              <Label className="text-sm">اجتناب از آخر هفته</Label>
+              <Label className="text-sm text-right">اجتناب از آخر هفته</Label>
               <Switch
                 checked={strategy.avoidWeekends}
                 onCheckedChange={(checked) => handleCustomChange('avoidWeekends', checked)}
@@ -227,7 +227,7 @@ const StrategySelector = ({ strategy, onChange }: StrategySelectorProps) => {
         </div>
 
         {/* Strategy Info */}
-        <div className="p-4 bg-blue-50 rounded-lg text-sm text-blue-900 space-y-2">
+        <div className="p-4 bg-blue-50 rounded-lg text-sm text-blue-900 space-y-2 text-right">
           <p className="font-medium">استراتژی فعلی: {strategy.name}</p>
           <ul className="list-disc list-inside space-y-1 text-xs">
             <li>ریسک هر معامله: {strategy.riskPerTrade}%</li>

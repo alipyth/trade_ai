@@ -30,9 +30,9 @@ const CryptoChart = ({ symbol, data }: CryptoChartProps) => {
   }));
 
   return (
-    <Card>
+    <Card dir="rtl">
       <CardHeader>
-        <CardTitle>نمودار قیمت {symbol}</CardTitle>
+        <CardTitle className="text-right">نمودار قیمت {symbol}</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>

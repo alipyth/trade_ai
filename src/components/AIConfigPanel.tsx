@@ -15,9 +15,9 @@ const AIConfigPanel = ({ config, onChange }: AIConfigPanelProps) => {
   const hasApiKey = config.provider === 'ollama' || (config.apiKey && config.apiKey.length > 0);
 
   return (
-    <Card>
+    <Card dir="rtl">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+        <CardTitle className="flex items-center gap-2 text-right">
           <Brain className="w-5 h-5" />
           تنظیمات هوش مصنوعی
         </CardTitle>
@@ -26,14 +26,14 @@ const AIConfigPanel = ({ config, onChange }: AIConfigPanelProps) => {
         {!hasApiKey && (
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
+            <AlertDescription className="text-right">
               برای استفاده از ربات معاملاتی، لطفاً کلید API را وارد کنید یا از Ollama استفاده کنید.
             </AlertDescription>
           </Alert>
         )}
 
         <div className="space-y-2">
-          <Label>ارائه‌دهنده هوش مصنوعی</Label>
+          <Label className="text-right block">ارائه‌دهنده هوش مصنوعی</Label>
           <Select
             value={config.provider}
             onValueChange={(value: AIProvider) => onChange({ ...config, provider: value })}
@@ -51,14 +51,15 @@ const AIConfigPanel = ({ config, onChange }: AIConfigPanelProps) => {
 
         {config.provider !== 'ollama' && (
           <div className="space-y-2">
-            <Label>کلید API</Label>
+            <Label className="text-right block">کلید API</Label>
             <Input
               type="password"
               placeholder="کلید API خود را وارد کنید"
               value={config.apiKey || ''}
               onChange={(e) => onChange({ ...config, apiKey: e.target.value })}
+              className="text-right"
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground text-right">
               {config.provider === 'openai' 
                 ? 'کلید API را از platform.openai.com دریافت کنید'
                 : 'کلید API را از openrouter.ai دریافت کنید'}
@@ -67,7 +68,7 @@ const AIConfigPanel = ({ config, onChange }: AIConfigPanelProps) => {
         )}
 
         <div className="space-y-2">
-          <Label>مدل</Label>
+          <Label className="text-right block">مدل</Label>
           <Input
             placeholder={
               config.provider === 'openai' ? 'gpt-3.5-turbo' :
@@ -76,8 +77,9 @@ const AIConfigPanel = ({ config, onChange }: AIConfigPanelProps) => {
             }
             value={config.model || ''}
             onChange={(e) => onChange({ ...config, model: e.target.value })}
+            className="text-right"
           />
-          <p className="text-xs text-muted-foreground">
+          <p className="text-xs text-muted-foreground text-right">
             {config.provider === 'openai' && 'مدل پیشنهادی: gpt-3.5-turbo یا gpt-4'}
             {config.provider === 'openrouter' && 'مدل پیشنهادی: openai/gpt-3.5-turbo'}
             {config.provider === 'ollama' && 'مدل پیشنهادی: llama2 یا mistral'}
@@ -86,19 +88,20 @@ const AIConfigPanel = ({ config, onChange }: AIConfigPanelProps) => {
 
         {config.provider === 'ollama' && (
           <div className="space-y-2">
-            <Label>آدرس پایه</Label>
+            <Label className="text-right block">آدرس پایه</Label>
             <Input
               placeholder="http://localhost:11434"
               value={config.baseURL || ''}
               onChange={(e) => onChange({ ...config, baseURL: e.target.value })}
+              className="text-right"
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-muted-foreground text-right">
               مطمئن شوید که Ollama در حال اجرا است
             </p>
           </div>
         )}
 
-        <div className="p-4 bg-blue-50 rounded-lg text-sm text-blue-900 space-y-2">
+        <div className="p-4 bg-blue-50 rounded-lg text-sm text-blue-900 space-y-2 text-right">
           <p className="font-medium">راهنما:</p>
           <ul className="list-disc list-inside space-y-1 text-xs">
             <li>برای OpenAI: کلید API از platform.openai.com دریافت کنید</li>

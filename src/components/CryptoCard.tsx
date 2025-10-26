@@ -23,7 +23,7 @@ const CryptoCard = ({ crypto, previousPrice }: CryptoCardProps) => {
   };
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow" dir="rtl">
       <CardHeader className="pb-3">
         <CardTitle className="flex items-center justify-between">
           <span className="text-2xl font-bold">{crypto.symbol}</span>
@@ -38,7 +38,7 @@ const CryptoCard = ({ crypto, previousPrice }: CryptoCardProps) => {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="space-y-2">
+        <div className="space-y-2 text-right">
           <div className="text-3xl font-bold">{formatPrice(crypto.price)}</div>
           {previousPrice && (
             <div className={`text-sm ${isPositive ? 'text-green-600' : 'text-red-600'}`}>

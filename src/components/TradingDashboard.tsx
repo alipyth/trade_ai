@@ -45,7 +45,7 @@ const TradingDashboard = ({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" dir="rtl">
       {/* Left Column - Portfolio & Positions */}
       <div className="lg:col-span-2 space-y-6">
         {/* Portfolio Overview */}
@@ -71,21 +71,21 @@ const TradingDashboard = ({
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div>
+              <div className="text-right">
                 <p className="text-xs text-muted-foreground">ارزش کل</p>
                 <p className="text-xl font-bold">${formatCurrency(portfolio.totalValue)}</p>
               </div>
-              <div>
+              <div className="text-right">
                 <p className="text-xs text-muted-foreground">موجودی نقد</p>
                 <p className="text-xl font-bold">${formatCurrency(portfolio.cash)}</p>
               </div>
-              <div>
+              <div className="text-right">
                 <p className="text-xs text-muted-foreground">بازدهی</p>
                 <p className={`text-xl font-bold ${portfolio.totalReturn >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                   {formatPercent(portfolio.totalReturn)}
                 </p>
               </div>
-              <div>
+              <div className="text-right">
                 <p className="text-xs text-muted-foreground">پوزیشن‌ها</p>
                 <p className="text-xl font-bold">{portfolio.positions.length}</p>
               </div>
@@ -97,14 +97,14 @@ const TradingDashboard = ({
         {portfolio.positions.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">پوزیشن‌های باز</CardTitle>
+              <CardTitle className="text-lg text-right">پوزیشن‌های باز</CardTitle>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[200px]">
                 <div className="space-y-2">
                   {portfolio.positions.map((position, index) => (
                     <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                      <div>
+                      <div className="text-right">
                         <p className="font-bold">{position.symbol}</p>
                         <p className="text-xs text-muted-foreground">
                           {position.quantity} @ ${formatCurrency(position.entryPrice)}
@@ -130,7 +130,7 @@ const TradingDashboard = ({
         {portfolio.trades.length > 0 && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">معاملات اخیر</CardTitle>
+              <CardTitle className="text-lg text-right">معاملات اخیر</CardTitle>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[250px]">
@@ -143,7 +143,7 @@ const TradingDashboard = ({
                         ) : (
                           <TrendingDown className="w-4 h-4 text-red-600" />
                         )}
-                        <div>
+                        <div className="text-right">
                           <p className="font-bold text-sm">{trade.symbol}</p>
                           <p className="text-xs text-muted-foreground">
                             {trade.quantity} @ ${formatCurrency(trade.price)}
@@ -172,13 +172,13 @@ const TradingDashboard = ({
         {/* Current AI Decisions */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">سیگنال‌های هوش مصنوعی</CardTitle>
+            <CardTitle className="text-lg text-right">سیگنال‌های هوش مصنوعی</CardTitle>
           </CardHeader>
           <CardContent>
             <ScrollArea className="h-[300px]">
               <div className="space-y-2">
                 {decisions.map((decision, index) => (
-                  <div key={index} className="p-3 bg-muted/50 rounded-lg space-y-2">
+                  <div key={index} className="p-3 bg-muted/50 rounded-lg space-y-2 text-right">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-sm">{decision.symbol}</span>
                       <Badge 
@@ -192,8 +192,8 @@ const TradingDashboard = ({
                         {decision.action === 'BUY' ? 'خرید' : decision.action === 'SELL' ? 'فروش' : 'نگهداری'}
                       </Badge>
                     </div>
-                    <p className="text-xs text-muted-foreground">{decision.reasoning}</p>
-                    <p className="text-xs font-medium">
+                    <p className="text-xs text-muted-foreground text-right">{decision.reasoning}</p>
+                    <p className="text-xs font-medium text-right">
                       اطمینان: {(decision.confidence * 100).toFixed(0)}%
                     </p>
                   </div>
@@ -206,7 +206,7 @@ const TradingDashboard = ({
         {/* AI Chain of Thought Reports */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="text-lg flex items-center gap-2 text-right">
               <Brain className="w-4 h-4" />
               گزارش‌های تحلیل هوش مصنوعی
             </CardTitle>
@@ -215,7 +215,7 @@ const TradingDashboard = ({
             <ScrollArea className="h-[400px]">
               <div className="space-y-3">
                 {aiReports.map((report, index) => (
-                  <div key={index} className="p-3 bg-muted/50 rounded-lg space-y-2">
+                  <div key={index} className="p-3 bg-muted/50 rounded-lg space-y-2 text-right">
                     <div className="flex items-center justify-between">
                       <span className="font-bold text-sm">{report.symbol}</span>
                       <Badge variant="outline" className="text-xs">
@@ -223,8 +223,8 @@ const TradingDashboard = ({
                       </Badge>
                     </div>
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-muted-foreground">فرآیند تفکر:</p>
-                      <p className="text-xs text-muted-foreground leading-relaxed">
+                      <p className="text-xs font-medium text-muted-foreground text-right">فرآیند تفکر:</p>
+                      <p className="text-xs text-muted-foreground leading-relaxed text-right">
                         {report.chainOfThought}
                       </p>
                     </div>

@@ -80,17 +80,17 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
   }, {} as Record<string, typeof portfolio.trades>);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" dir="rtl">
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2 text-right">
               <Activity className="w-4 h-4 text-blue-600" />
               کل معاملات
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="text-right">
             <div className="text-2xl font-bold">{totalTrades}</div>
             <div className="text-xs text-muted-foreground mt-1">
               {buyTrades} خرید / {sellTrades} فروش
@@ -100,12 +100,12 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2 text-right">
               <Target className="w-4 h-4 text-green-600" />
               نرخ موفقیت
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="text-right">
             <div className="text-2xl font-bold">{winRate.toFixed(1)}%</div>
             <div className="text-xs text-muted-foreground mt-1">
               {winningTrades} معامله سودده
@@ -115,12 +115,12 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2 text-right">
               <DollarSign className="w-4 h-4 text-purple-600" />
               سود/زیان کل
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="text-right">
             <div className={`text-2xl font-bold ${totalPnL >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               ${formatCurrency(totalPnL)}
             </div>
@@ -132,12 +132,12 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
 
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2 text-right">
               <BarChart3 className="w-4 h-4 text-orange-600" />
               بازدهی کل
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="text-right">
             <div className={`text-2xl font-bold ${portfolio.totalReturn >= 0 ? 'text-green-600' : 'text-red-600'}`}>
               {formatPercent(portfolio.totalReturn)}
             </div>
@@ -153,7 +153,7 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
         {/* Trade History by Symbol */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-right">
               <Activity className="w-5 h-5" />
               تاریخچه معاملات به تفکیک ارز
             </CardTitle>
@@ -178,7 +178,7 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
                             )}
                             <span className="font-medium">{trade.type === 'BUY' ? 'خرید' : 'فروش'}</span>
                           </div>
-                          <div className="text-left">
+                          <div className="text-right">
                             <div className="font-medium">${formatCurrency(trade.price)}</div>
                             <div className="text-xs text-muted-foreground">
                               {new Date(trade.timestamp).toLocaleTimeString('fa-IR')}
@@ -197,7 +197,7 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
         {/* AI Analysis Timeline */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-right">
               <Clock className="w-5 h-5" />
               تایم‌لاین تحلیل‌های هوش مصنوعی
             </CardTitle>
@@ -208,7 +208,7 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
                 {aiReports.map((report, index) => (
                   <div key={index} className="border-r-4 border-blue-500 pr-4 pb-4">
                     <div className="flex items-start justify-between mb-2">
-                      <div>
+                      <div className="text-right">
                         <h4 className="font-bold text-sm">{report.symbol}</h4>
                         <p className="text-xs text-muted-foreground">
                           {formatDate(report.timestamp)}
@@ -224,7 +224,7 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
                         {report.decision === 'BUY' ? 'خرید' : report.decision === 'SELL' ? 'فروش' : 'نگهداری'}
                       </Badge>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-2 text-right">
                       <div>
                         <p className="text-xs font-medium text-muted-foreground">تحلیل:</p>
                         <p className="text-sm">{report.analysis}</p>
@@ -254,7 +254,7 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
       {portfolio.positions.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-right">
               <BarChart3 className="w-5 h-5" />
               جزئیات پوزیشن‌های باز
             </CardTitle>
@@ -270,19 +270,19 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
                     </Badge>
                   </div>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                    <div>
+                    <div className="text-right">
                       <p className="text-muted-foreground">مقدار</p>
                       <p className="font-medium">{position.quantity}</p>
                     </div>
-                    <div>
+                    <div className="text-right">
                       <p className="text-muted-foreground">قیمت ورود</p>
                       <p className="font-medium">${formatCurrency(position.entryPrice)}</p>
                     </div>
-                    <div>
+                    <div className="text-right">
                       <p className="text-muted-foreground">قیمت فعلی</p>
                       <p className="font-medium">${formatCurrency(position.currentPrice)}</p>
                     </div>
-                    <div>
+                    <div className="text-right">
                       <p className="text-muted-foreground">سود/زیان</p>
                       <p className={`font-bold ${position.unrealizedPnl >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                         ${formatCurrency(position.unrealizedPnl)}
@@ -291,19 +291,19 @@ const TradingReports = ({ portfolio, aiReports }: TradingReportsProps) => {
                   </div>
                   <div className="mt-3 pt-3 border-t grid grid-cols-2 gap-4 text-sm">
                     {position.stopLoss && (
-                      <div>
+                      <div className="text-right">
                         <p className="text-muted-foreground">حد ضرر</p>
                         <p className="font-medium text-red-600">${formatCurrency(position.stopLoss)}</p>
                       </div>
                     )}
                     {position.takeProfit && (
-                      <div>
+                      <div className="text-right">
                         <p className="text-muted-foreground">حد سود</p>
                         <p className="font-medium text-green-600">${formatCurrency(position.takeProfit)}</p>
                       </div>
                     )}
                   </div>
-                  <div className="mt-2 text-xs text-muted-foreground">
+                  <div className="mt-2 text-xs text-muted-foreground text-right">
                     زمان ورود: {formatDate(position.entryTime)}
                   </div>
                 </div>
