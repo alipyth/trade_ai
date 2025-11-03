@@ -16,10 +16,26 @@ export default defineConfig(() => ({
       }
     }
   },
+  preview: {
+    host: "::",
+    port: 8080,
+  },
   plugins: [dyadComponentTagger(), react()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    outDir: "dist",
+    assetsDir: "assets",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          ui: ['@/components/ui/*'],
+        }
+      }
+    }
+  }
 }));
